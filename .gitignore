@@ -1,10 +1,10 @@
 # Dependencies
 node_modules/
 
-# Environment variables
-.env
-.env.*
-!.env.example
+# # Environment variables
+# .env
+# .env.*
+# !.env.example
 
 # TypeScript build output
 dist/
@@ -25,3 +25,4 @@ Thumbs.db
 
 # npm
 package-lock.json
+/generated/prisma

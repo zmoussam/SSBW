@@ -8,9 +8,13 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "node --watch --env-file=.env index.ts"
+    "dev": "node --watch --env-file=.env index.ts",
+    "seed": "npx tsx --env-file=.env scripts/seed.ts",
+    "scrap": "node --env-file=.env scripts/scrap-tp.js"
   },
   "dependencies": {
+    "@prisma/adapter-pg": "^7.8.0",
+    "@prisma/client": "^6.19.3",
     "express": "^5.2.1",
     "nunjucks": "^3.2.4",
     "typescript": "^5.9.3"
@@ -20,6 +24,9 @@
     "@types/node": "^25.3.5",
     "@types/nunjucks": "^3.2.6",
     "chokidar": "^3.6.0",
-    "playwright": "^1.59.1"
+    "dotenv": "^17.4.2",
+    "playwright": "^1.59.1",
+    "prisma": "^6.19.3",
+    "tsx": "^4.21.0"
   }
 }
