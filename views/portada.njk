@@ -1,0 +1,83 @@
+{% extends "base.njk" %}
+
+{% block title %}Impresiones — Tienda Prado{% endblock %}
+
+{% block content %}
+<div class="row mt-3">
+
+  <!-- Left column: sidebar -->
+  <div id="left-column" class="col-12 col-md-3 order-first">
+    <div class="block block-categories">
+      <h5 class="block-title">
+        <a href="/">Impresiones</a>
+      </h5>
+      <ul class="category-sub-menu">
+        <li><a href="#">Impresión a la carta</a></li>
+        <li><a href="#">Láminas y carteles</a></li>
+        <li><a href="#">Impresión en madera</a></li>
+        <li><a href="#">Postales puzzle y plegadas</a></li>
+        <li><a href="#">Impresiones enmarcadas</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Right column: products -->
+  <div id="content-wrapper" class="col-12 col-md-9">
+
+    <h1 class="page-title">Impresiones</h1>
+
+    <!-- Products selection bar -->
+    <div class="products-selection d-flex justify-content-between align-items-center">
+      <div>
+        <i class="fa fa-th me-2" style="color:#333"></i>
+        <i class="fa fa-th-list" style="color:#aaa"></i>
+      </div>
+      <div class="d-flex align-items-center gap-3">
+        {% if busqueda %}
+          <span class="text-muted">
+            Resultados para: <em>{{ busqueda }}</em>
+            <a href="/" class="ms-2 text-secondary" style="font-size:0.75rem">Ver todos</a>
+          </span>
+        {% else %}
+          <span>Mostrando {{ cards | length }} artículo(s)</span>
+        {% endif %}
+      </div>
+    </div>
+
+    {% if cards.length == 0 %}
+      <p class="text-center text-muted py-5">No se encontraron productos.</p>
+    {% endif %}
+
+    <!-- Product grid -->
+    <div class="products row products-grid">
+      {% for card in cards %}
+      <div class="col-6 col-md-6 col-lg-4 col-xl-4">
+        <article class="product-miniature">
+          <div class="thumbnail-container">
+            <a href="/producto/{{ card.id }}">
+              <img
+                src="/public/imagenes/{{ card.imagen | trim }}"
+                alt="{{ card.título | trim }}"
+                loading="lazy"
+                onerror="this.src='https://placehold.co/350x350?text=Sin+imagen'"
+              >
+            </a>
+          </div>
+          <div class="product-description">
+            <h2 class="h3 product-title">
+              <a href="/producto/{{ card.id }}">{{ card.título | trim }}</a>
+            </h2>
+            <div class="product-price-and-shipping">
+              <a href="/producto/{{ card.id }}">
+                <span class="product-price">{{ card.precio }} €</span>
+              </a>
+            </div>
+          </div>
+        </article>
+      </div>
+      {% endfor %}
+    </div>
+
+  </div>
+</div>
+{% endblock %}

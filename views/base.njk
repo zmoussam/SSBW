@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Tienda Prado{% endblock %}</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      font-size: 14px;
+      color: #333;
+      background: #fff;
+      margin: 0;
+    }
+
+    /* ── Top bar ── */
+    .header-nav {
+      border-bottom: 1px solid #e8e8e8;
+      padding: 6px 0;
+      font-size: 0.72rem;
+      letter-spacing: 0.05em;
+      color: #555;
+    }
+    .header-nav a { color: #555; text-decoration: none; }
+    .header-nav a:hover { color: #000; }
+
+    /* ── Logo area ── */
+    #desktop-header {
+      padding: 18px 0 10px;
+      border-bottom: 1px solid #e8e8e8;
+    }
+    .site-logo {
+      font-family: 'EB Garamond', serif;
+      font-size: 2rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: #1a1a1a;
+      text-decoration: none;
+      font-weight: 400;
+    }
+    .site-logo:hover { color: #1a1a1a; }
+
+    /* Header right icons */
+    .header-icon-btn {
+      background: none;
+      border: none;
+      color: #737373;
+      padding: 0 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .header-icon-btn span.title {
+      font-size: 0.7rem;
+      letter-spacing: 0.05em;
+    }
+    .header-icon-btn:hover { color: #333; }
+    .lang-selector {
+      font-size: 0.75rem;
+      color: #555;
+      margin-left: 8px;
+    }
+    .lang-selector a { color: #555; text-decoration: none; }
+
+    /* ── Search dropdown ── */
+    #searchCollapse {
+      border-bottom: 1px solid #e8e8e8;
+      background: #fff;
+    }
+    .search-form-inner {
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 12px 0;
+    }
+    .search-form-inner .form-control {
+      border: none;
+      border-bottom: 1px solid #333;
+      border-radius: 0;
+      box-shadow: none;
+      font-size: 0.85rem;
+      padding: 6px 4px;
+    }
+    .search-form-inner .form-control:focus {
+      box-shadow: none;
+      border-bottom: 2px solid #333;
+    }
+    .search-form-inner .btn-search {
+      background: none;
+      border: none;
+      color: #555;
+      padding: 6px 10px;
+    }
+
+    /* ── Main nav ── */
+    .main-nav {
+      border-bottom: 1px solid #e8e8e8;
+    }
+    .main-nav .nav-link {
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #333;
+      padding: 13px 11px;
+      font-weight: 400;
+    }
+    .main-nav .nav-link:hover,
+    .main-nav .nav-link.active {
+      color: #000;
+      font-weight: 500;
+    }
+
+    /* ── Sidebar ── */
+    .block-title {
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-weight: 500;
+      color: #333;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 10px;
+      margin-bottom: 10px;
+    }
+    .category-sub-menu {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .category-sub-menu li a {
+      display: block;
+      font-size: 0.82rem;
+      color: #555;
+      text-decoration: none;
+      padding: 5px 0;
+    }
+    .category-sub-menu li a:hover { color: #000; }
+
+    /* ── Page title ── */
+    .page-title {
+      font-family: 'EB Garamond', serif;
+      font-size: 1.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      text-align: center;
+      font-weight: 400;
+      margin: 1.5rem 0;
+    }
+
+    /* ── Product cards ── */
+    .product-miniature {
+      margin-bottom: 20px;
+    }
+    .thumbnail-container {
+      background: #f8f8f8;
+      overflow: hidden;
+      position: relative;
+    }
+    .thumbnail-container img {
+      width: 100%;
+      height: 260px;
+      object-fit: contain;
+      display: block;
+      transition: transform 0.3s ease;
+      padding: 8px;
+    }
+    .thumbnail-container:hover img { transform: scale(1.03); }
+    .product-description { padding: 12px 4px 6px; }
+    .product-title {
+      font-family: 'EB Garamond', serif;
+      font-size: 1rem;
+      font-weight: 400;
+      text-align: center;
+      margin-bottom: 6px;
+    }
+    .product-title a {
+      color: #1a1a1a;
+      text-decoration: none;
+    }
+    .product-title a:hover { color: #555; }
+    .product-price-and-shipping {
+      text-align: center;
+      font-size: 0.9rem;
+      color: #333;
+    }
+    .product-price-and-shipping a { color: #333; text-decoration: none; }
+
+    /* ── Products selection bar ── */
+    .products-selection {
+      font-size: 0.8rem;
+      color: #777;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #eee;
+    }
+
+    /* ── Footer ── */
+    #footer { border-top: 1px solid #e8e8e8; margin-top: 3rem; }
+    #footer-container-first {
+      background: #f8f8f8;
+      padding: 30px 0;
+      border-bottom: 1px solid #e8e8e8;
+    }
+    #footer-container-first h5 {
+      font-family: 'EB Garamond', serif;
+      font-size: 1.1rem;
+      font-weight: 400;
+      margin-bottom: 6px;
+    }
+    #footer-container-first p { font-size: 0.82rem; color: #666; margin-bottom: 10px; }
+    #footer-container-first .form-control {
+      border-radius: 0;
+      font-size: 0.82rem;
+      border-color: #ccc;
+    }
+    #footer-container-first .btn-primary {
+      background: #737373;
+      border-color: #737373;
+      border-radius: 0;
+    }
+    #footer-container-main { padding: 30px 0; }
+    #footer-container-main ul { list-style: none; padding: 0; margin: 0; }
+    #footer-container-main ul li { margin-bottom: 6px; }
+    #footer-container-main ul li a {
+      font-size: 0.8rem;
+      color: #555;
+      text-decoration: none;
+    }
+    #footer-container-main ul li a:hover { color: #000; }
+    .contact-rich { font-size: 0.8rem; color: #555; }
+    .contact-rich .company-name { font-weight: 500; margin: 4px 0; }
+    #footer-copyrights {
+      border-top: 1px solid #e8e8e8;
+      padding: 15px 0;
+      font-size: 0.75rem;
+      color: #888;
+    }
+    .social-links { list-style: none; padding: 0; margin: 0; display: flex; gap: 12px; }
+    .social-links a { color: #888; font-size: 1rem; }
+    .social-links a:hover { color: #333; }
+  </style>
+</head>
+<body>
+
+  <!-- Top bar -->
+  <nav class="header-nav">
+    <div class="container">
+      <div class="d-flex justify-content-between align-items-center">
+        <div>
+          <a href="https://www.museodelprado.es" target="_blank">
+            <small>MUSEO DEL PRADO</small>
+          </a>
+        </div>
+        <div>
+          <a href="#"><small>IMAGE BANK</small></a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Header: logo + icons -->
+  <div id="desktop-header">
+    <div class="container">
+      <div class="d-flex align-items-center justify-content-between">
+        <div style="width:200px"></div>
+        <a href="/" class="site-logo">Tienda Prado</a>
+        <div class="d-flex align-items-center" style="width:200px; justify-content:flex-end; gap:4px">
+          <a href="#" class="header-icon-btn"
+             data-bs-toggle="collapse" data-bs-target="#searchCollapse">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="17" viewBox="0 0 21.391 19.425">
+              <path d="M20.9,18.929l-6.7-5.107a8.412,8.412,0,0,0,1.7-4.575A7.4,7.4,0,0,0,8.447,1.8,7.4,7.4,0,0,0,1,9.247a7.312,7.312,0,0,0,7.447,7.341,8.706,8.706,0,0,0,5-1.809l6.7,5.213c.638.532,1.277.532,1.383.213S21.746,19.461,20.9,18.929Zm-12.448-3.4A6.221,6.221,0,0,1,2.17,9.247,6.221,6.221,0,0,1,8.447,2.97a6.221,6.221,0,0,1,6.277,6.277A6.358,6.358,0,0,1,8.447,15.524Z" transform="translate(-0.6 -1.4)" fill="#737373" stroke="#737373" stroke-miterlimit="10" stroke-width="0.8"/>
+            </svg>
+            <span class="title">Buscar</span>
+          </a>
+          <a href="#" class="header-icon-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="18" viewBox="0 0 18.985 20.055">
+              <g transform="translate(-1717.821 -82.211)">
+                <path d="M13.662,14.524a4.262,4.262,0,1,1,4.262-4.262A4.275,4.275,0,0,1,13.662,14.524Zm0-7.459a3.278,3.278,0,0,0-3.2,3.2,3.278,3.278,0,0,0,3.2,3.2,3.278,3.278,0,0,0,3.2-3.2A3.278,3.278,0,0,0,13.662,7.066Z" transform="translate(1713.651 76.611)" fill="#737373" stroke="#737373" stroke-miterlimit="10" stroke-width="0.8"/>
+                <path d="M23.185,24.176H22.1c0-4.088-3.572-7.379-8.01-7.379s-8.01,3.39-8.01,7.379H5C5,19.589,9.113,15.8,14.093,15.8S23.185,19.489,23.185,24.176Z" transform="translate(1713.221 77.69)" fill="#737373" stroke="#737373" stroke-miterlimit="10" stroke-width="0.8"/>
+              </g>
+            </svg>
+            <span class="title">Iniciar sesión</span>
+          </a>
+          <a href="#" class="header-icon-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="17" viewBox="0 0 21.758 20.052">
+              <g transform="translate(-1759.9 -82.599)">
+                <path d="M6.919,7.828C7.156,5.883,7.75,2.3,10.72,2.3c2.851,0,3.564,3.583,3.8,5.528l.119,1.126h-.95l-.119-1.024C13.334,6.5,12.74,3.221,10.72,3.221S8.107,6.5,7.75,7.931L7.632,8.955H6.8Z" transform="translate(1760.058 80.699)" fill="#737373" stroke="#737373" stroke-miterlimit="10" stroke-width="0.8" fill-rule="evenodd"/>
+                <path d="M2.7,8.919l1.247,8.4A2.841,2.841,0,0,0,6.69,18.952H17.543a2.971,2.971,0,0,0,2.744-1.638l1.247-8.4H2.7ZM6.565,19.976a3.5,3.5,0,0,1-3.618-2.355L1.7,8.612A.559.559,0,0,1,2.074,8.1H22.284c.249.1.374.2.374.512L21.41,17.621a3.5,3.5,0,0,1-3.618,2.355Z" transform="translate(1758.6 82.275)" fill="#737373" stroke="#737373" stroke-miterlimit="10" stroke-width="0.8" fill-rule="evenodd"/>
+              </g>
+            </svg>
+            <span class="title">Cesta</span>
+          </a>
+          <span class="lang-selector ms-2">ES | <a href="#">EN</a></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Search collapse -->
+  <div class="collapse" id="searchCollapse">
+    <div class="container">
+      <div class="search-form-inner">
+        <form action="/buscar" method="get" class="d-flex align-items-center">
+          <input
+            type="text"
+            name="busqueda"
+            class="form-control flex-grow-1"
+            placeholder="Busca artículos en nuestro catálogo."
+            value="{{ busqueda }}"
+            autocomplete="off"
+          >
+          <button type="submit" class="btn-search">
+            <i class="fa fa-search"></i>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main nav -->
+  <nav class="main-nav">
+    <div class="container">
+      <ul class="nav justify-content-center flex-wrap">
+        <li class="nav-item"><a class="nav-link" href="#">Libros</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Exposiciones</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Colaboraciones</a></li>
+        <li class="nav-item"><a class="nav-link active" href="/">Impresiones</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Hogar</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Papelería</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Textil y Complementos</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Niños</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Regalos y Accesorios</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Colecciones</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Outlet</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Main content -->
+  <section id="wrapper">
+    <div class="container" id="inner-wrapper">
+      {% block content %}{% endblock %}
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer id="footer">
+    <div id="footer-container-first">
+      <div class="container">
+        <h5>Suscríbete a nuestra newsletter</h5>
+        <p>Recibe información sobre novedades, promociones y descuentos.</p>
+        <form class="d-flex" style="max-width:400px">
+          <input type="email" class="form-control me-2" placeholder="Correo electrónico">
+          <button class="btn btn-primary" type="submit">
+            <i class="fa fa-envelope-o"></i>
+          </button>
+        </form>
+      </div>
+    </div>
+    <div id="footer-container-main">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-3">
+            <ul>
+              <li><a href="#">Cómo comprar</a></li>
+              <li><a href="#">Medios de pago</a></li>
+              <li><a href="#">Transporte</a></li>
+              <li><a href="#">Cambios y devoluciones</a></li>
+            </ul>
+          </div>
+          <div class="col-md-3">
+            <ul>
+              <li><a href="#">Promociones y descuentos</a></li>
+              <li><a href="#">Tienda Prado en el Museo</a></li>
+              <li><a href="#">Atención al cliente</a></li>
+              <li><a href="#">Impresión a la carta</a></li>
+            </ul>
+          </div>
+          <div class="col-md-3">
+            <ul>
+              <li><a href="#">Política de cookies</a></li>
+              <li><a href="#">Aviso legal</a></li>
+              <li><a href="#">Política de privacidad</a></li>
+              <li><a href="#">Condiciones generales</a></li>
+            </ul>
+          </div>
+          <div class="col-md-3">
+            <div class="contact-rich">
+              <div>Copyright &copy; 2026</div>
+              <div class="company-name">Museo Nacional del Prado Difusión, S.A.U., S.M.E</div>
+              <div class="mt-1">C/ Casado del Alisal, 10 Bajo B<br>28014 Madrid</div>
+              <div class="mt-1">Todos los derechos reservados.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="footer-copyrights">
+      <div class="container d-flex justify-content-between align-items-center">
+        <ul class="social-links">
+          <li><a href="#"><i class="fa fa-facebook fa-fw"></i></a></li>
+          <li><a href="#"><i class="fa fa-twitter fa-fw"></i></a></li>
+          <li><a href="#"><i class="fa fa-instagram fa-fw"></i></a></li>
+        </ul>
+        <div>
+          <a href="#" class="text-muted me-3" style="font-size:0.75rem">Fundación Amigos</a>
+          <a href="https://www.museodelprado.es" class="text-muted" style="font-size:0.75rem" target="_blank">Museo del Prado</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

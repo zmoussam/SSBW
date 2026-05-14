@@ -28,6 +28,12 @@ SSBW/
 │   └── prisma.client.ts     # Prisma client configuration
 ├── generated/
 │   └── prisma/              # Auto-generated Prisma client
+├── routes/
+│   └── productos.ts         # Controllers (MVC)
+├── views/
+│   ├── base.njk             # Base template
+│   ├── portada.njk          # Home and search page
+│   └── detalle.njk          # Product detail page
 └── scripts/
     ├── scrap-tp.js          # Web scraper (Playwright)
     └── seed.ts              # Database seeder
@@ -68,6 +74,20 @@ docker compose up -d
 npx prisma migrate dev --name esquema_inicial
 npx prisma generate
 ```
+
+### 5. Seed the database
+
+```bash
+npm run seed
+```
+
+### 6. Start the server
+
+```bash
+npm run dev
+```
+
+Open `http://localhost:3000` in your browser.
 
 ---
 
@@ -149,11 +169,27 @@ npx prisma studio
 
 ---
 
+### Task 4 — Home Page, Search and Product Detail Pages
+
+Implements the MVC pattern with Prisma as the Model and Nunjucks as the View.
+
+Routes available:
+
+| Route | Description |
+|-------|-------------|
+| `GET /` | Home page — all products grid |
+| `GET /producto/:id` | Product detail page |
+| `GET /buscar?busqueda=` | Search by title or description |
+
+The UI closely matches the real Tienda Prado design using EB Garamond font, Bootstrap 5, and the same layout structure.
+
+---
+
 ## Available Scripts
 
 | Script | Command | Description |
 |--------|---------|-------------|
-| `npm run dev` | `node --watch --env-file=.env index.ts` | Start Express server in watch mode |
+| `npm run dev` | `tsx --watch --env-file=.env index.ts` | Start Express server in watch mode |
 | `npm run scrap` | `node --env-file=.env scripts/scrap-tp.js` | Run the web scraper |
 | `npm run seed` | `npx tsx --env-file=.env scripts/seed.ts` | Seed the database with scraped data |
 
@@ -171,3 +207,4 @@ npx prisma studio
 | Prisma 7 | ORM with migrations and studio |
 | Docker | PostgreSQL container |
 | tsx | TypeScript script runner |
+| Bootstrap 5 | CSS framework |

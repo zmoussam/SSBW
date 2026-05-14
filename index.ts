@@ -1,14 +1,22 @@
-import express from 'express';
+import express from 'express'
+import nunjucks from 'nunjucks'
+import ProductosRouter from './routes/productos.ts'
 
-const app = express();
-const PORT = 3000;
+const app = express()
+const PORT = process.env.PORT || 3000
 
-// Simple route
-app.get('/', (req, res) => {
-  res.send('Hello World!');
-});
+// Nunjucks setup
+nunjucks.configure('views', {
+  autoescape: true,
+  express: app
+})
 
-// Start the server
+// Middleware for static files
+app.use('/public/imagenes', express.static('imagenes'))
+
+// Router
+app.use('/', ProductosRouter)
+
 app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
-});
+  console.log(`Server running at http://localhost:${PORT}`)
+})
