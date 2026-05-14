@@ -19,10 +19,14 @@ SSBW/
 ├── docker-compose.yml       # PostgreSQL container
 ├── .env                     # Environment variables (not committed)
 ├── index.ts                 # Express server
+├── logger.ts                # Winston logger configuration
 ├── package.json
 ├── tsconfig.json
 ├── productos.json           # Scraped product data
 ├── imagenes/                # Downloaded product images
+├── logs/
+│   ├── info.log             # Info and above log entries
+│   └── error.log            # Error log entries
 ├── prisma/
 │   ├── schema.prisma        # Database schema
 │   └── prisma.client.ts     # Prisma client configuration
@@ -30,6 +34,8 @@ SSBW/
 │   └── prisma/              # Auto-generated Prisma client
 ├── routes/
 │   └── productos.ts         # Controllers (MVC)
+├── types/
+│   └── session.d.ts         # Express session type declarations
 ├── views/
 │   ├── base.njk             # Base template
 │   ├── portada.njk          # Home and search page
@@ -60,6 +66,7 @@ POSTGRES_USER=yo
 POSTGRES_PASSWORD=una_clave_muy_segura_123
 POSTGRES_DB=ssbw
 DATABASE_URL="postgresql://yo:una_clave_muy_segura_123@localhost:5432/ssbw?schema=public"
+LOG_LEVEL=debug
 ```
 
 ### 3. Start the database
@@ -185,6 +192,32 @@ The UI closely matches the real Tienda Prado design using EB Garamond font, Boot
 
 ---
 
+### Task 5 — Logger and Shopping Cart
+
+**Logger** — Winston is configured with three transports:
+
+| Transport | Level | Output |
+|-----------|-------|--------|
+| Console | debug | All messages with colors and timestamps |
+| File | info | `logs/info.log` in JSON format |
+| File | error | `logs/error.log` in JSON format |
+
+The log level can be controlled via the `LOG_LEVEL` environment variable (default: `debug`).
+
+**Shopping Cart** — Cart functionality using server-side sessions:
+- Add products to cart from the product detail page with a quantity input
+- Cart data stored in `express-session` and persists until the browser is closed
+- Cart icon in the header shows the total number of items in the cart
+- Cart middleware in `index.ts` makes cart data available in all templates via `res.locals`
+
+Route added:
+
+| Route | Description |
+|-------|-------------|
+| `POST /al-carrito/:id` | Add product to cart with quantity |
+
+---
+
 ## Available Scripts
 
 | Script | Command | Description |
@@ -208,3 +241,5 @@ The UI closely matches the real Tienda Prado design using EB Garamond font, Boot
 | Docker | PostgreSQL container |
 | tsx | TypeScript script runner |
 | Bootstrap 5 | CSS framework |
+| Winston | Logging framework |
+| express-session | Server-side session management |
