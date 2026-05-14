@@ -271,6 +271,8 @@
         <div style="width:200px"></div>
         <a href="/" class="site-logo">Tienda Prado</a>
         <div class="d-flex align-items-center" style="width:200px; justify-content:flex-end; gap:4px">
+
+          <!-- Search -->
           <a href="#" class="header-icon-btn"
              data-bs-toggle="collapse" data-bs-target="#searchCollapse">
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="17" viewBox="0 0 21.391 19.425">
@@ -278,6 +280,8 @@
             </svg>
             <span class="title">Buscar</span>
           </a>
+
+          <!-- User -->
           <a href="#" class="header-icon-btn">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="18" viewBox="0 0 18.985 20.055">
               <g transform="translate(-1717.821 -82.211)">
@@ -287,6 +291,8 @@
             </svg>
             <span class="title">Iniciar sesión</span>
           </a>
+
+          <!-- Cart with badge -->
           <a href="#" class="header-icon-btn">
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="17" viewBox="0 0 21.758 20.052">
               <g transform="translate(-1759.9 -82.599)">
@@ -295,7 +301,14 @@
               </g>
             </svg>
             <span class="title">Cesta</span>
+            {% if total_carrito > 0 %}
+              <span class="badge rounded-pill"
+                style="background:#737373; font-size:0.65rem; padding:2px 5px; margin-left:2px">
+                {{ total_carrito }}
+              </span>
+            {% endif %}
           </a>
+
           <span class="lang-selector ms-2">ES | <a href="#">EN</a></span>
         </div>
       </div>
