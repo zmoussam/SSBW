@@ -29,20 +29,24 @@ SSBW/
 │   └── error.log            # Error log entries
 ├── prisma/
 │   ├── schema.prisma        # Database schema
-│   └── prisma.client.ts     # Prisma client configuration
+│   ├── prisma.client.ts     # Prisma client configuration
+│   └── usuario.ts           # Password hashing and authentication methods
 ├── generated/
 │   └── prisma/              # Auto-generated Prisma client
 ├── routes/
-│   └── productos.ts         # Controllers (MVC)
+│   ├── productos.ts         # Product controllers (MVC)
+│   └── usuarios.ts          # Authentication controllers
 ├── types/
-│   └── session.d.ts         # Express session type declarations
+│   └── session.d.ts         # Express session and request type declarations
 ├── views/
 │   ├── base.njk             # Base template
 │   ├── portada.njk          # Home and search page
-│   └── detalle.njk          # Product detail page
+│   ├── detalle.njk          # Product detail page
+│   └── login.njk            # Login page
 └── scripts/
     ├── scrap-tp.js          # Web scraper (Playwright)
-    └── seed.ts              # Database seeder
+    ├── seed.ts              # Database seeder
+    └── registra_usuarios.ts # User registration and verification script
 ```
 
 ---
@@ -67,6 +71,7 @@ POSTGRES_PASSWORD=una_clave_muy_segura_123
 POSTGRES_DB=ssbw
 DATABASE_URL="postgresql://yo:una_clave_muy_segura_123@localhost:5432/ssbw?schema=public"
 LOG_LEVEL=debug
+SECRET_KEY=your_secret_key_here
 ```
 
 ### 3. Start the database
@@ -88,7 +93,13 @@ npx prisma generate
 npm run seed
 ```
 
-### 6. Start the server
+### 6. Register test users
+
+```bash
+npm run registra
+```
+
+### 7. Start the server
 
 ```bash
 npm run dev
@@ -218,6 +229,53 @@ Route added:
 
 ---
 
+### Task 6 — Authentication
+
+Adds user authentication using JWT tokens stored in httpOnly cookies.
+
+**Database** — A new `Usuario` model was added to the schema:
+- `email` — primary key
+- `nombre` — display name
+- `contraseña` — bcrypt hashed password
+- `admin` — boolean role flag
+
+**Password hashing** — `prisma/usuario.ts` provides two methods:
+- `registra(email, nombre, contraseña, admin)` — hashes the password with bcrypt and creates the user
+- `autentifica(email, contraseña)` — verifies credentials and throws an error if invalid
+
+**Test users** — Run the registration script to create test users:
+
+```bash
+npm run registra
+```
+
+Default test users:
+
+| Email | Password | Admin |
+|-------|----------|-------|
+| admin@prado.es | admin123 | Yes |
+| user@prado.es | user123 | No |
+
+**Authentication flow:**
+1. User submits login form at `GET /login`
+2. Server verifies credentials with bcrypt
+3. On success, a JWT token is signed and stored in an `httpOnly` cookie
+4. Authentication middleware in `index.ts` reads and verifies the token on every request
+5. User info is available in all templates via `app.locals.usuario` and `app.locals.admin`
+6. Logout at `GET /logout` clears the cookie
+
+**Header** — Shows username and logout link when logged in, login link when not.
+
+Routes added:
+
+| Route | Description |
+|-------|-------------|
+| `GET /login` | Show login page |
+| `POST /login` | Handle login form |
+| `GET /logout` | Clear cookie and redirect to home |
+
+---
+
 ## Available Scripts
 
 | Script | Command | Description |
@@ -225,6 +283,7 @@ Route added:
 | `npm run dev` | `tsx --watch --env-file=.env index.ts` | Start Express server in watch mode |
 | `npm run scrap` | `node --env-file=.env scripts/scrap-tp.js` | Run the web scraper |
 | `npm run seed` | `npx tsx --env-file=.env scripts/seed.ts` | Seed the database with scraped data |
+| `npm run registra` | `npx tsx --env-file=.env scripts/registra_usuarios.ts` | Register test users |
 
 ---
 
@@ -243,3 +302,6 @@ Route added:
 | Bootstrap 5 | CSS framework |
 | Winston | Logging framework |
 | express-session | Server-side session management |
+| jsonwebtoken | JWT token generation and verification |
+| bcrypt | Password hashing |
+| cookie-parser | Cookie parsing middleware |
