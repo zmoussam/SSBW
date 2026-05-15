@@ -22,6 +22,7 @@ SSBW/
 ├── logger.ts                # Winston logger configuration
 ├── package.json
 ├── tsconfig.json
+├── test-api.http            # REST Client test file for API endpoints
 ├── productos.json           # Scraped product data
 ├── imagenes/                # Downloaded product images
 ├── logs/
@@ -35,7 +36,8 @@ SSBW/
 │   └── prisma/              # Auto-generated Prisma client
 ├── routes/
 │   ├── productos.ts         # Product controllers (MVC)
-│   └── usuarios.ts          # Authentication controllers
+│   ├── usuarios.ts          # Authentication controllers
+│   └── api.ts               # RESTful API controllers
 ├── types/
 │   └── session.d.ts         # Express session and request type declarations
 ├── views/
@@ -273,6 +275,31 @@ Routes added:
 | `GET /login` | Show login page |
 | `POST /login` | Handle login form |
 | `GET /logout` | Clear cookie and redirect to home |
+
+---
+
+### Task 7 — RESTful API
+
+A RESTful API for the products table. All endpoints return JSON.
+
+API endpoints:
+
+| Method | Route | Description |
+|--------|-------|-------------|
+| `GET` | `/api/productos` | Get all products with optional pagination and sorting |
+| `GET` | `/api/productos/:id` | Get a single product by id |
+| `POST` | `/api/productos` | Create a new product |
+| `PUT` | `/api/productos/:id` | Update a product's title, description or price |
+| `DELETE` | `/api/productos/:id` | Delete a product |
+
+Pagination and sorting query parameters:
+
+```
+GET /api/productos?desde=0&hasta=20&ordenación=ascendente
+GET /api/productos?desde=0&hasta=20&ordenación=descendente
+```
+
+**Testing** — Use the VSCode **REST Client** extension with `test-api.http` to test each endpoint directly from the editor.
 
 ---
 

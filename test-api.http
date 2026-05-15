@@ -1,0 +1,47 @@
+### Get all products
+GET http://localhost:3000/api/productos
+
+###
+
+### Get all products with pagination and sorting
+GET http://localhost:3000/api/productos?desde=0&hasta=5&ordenación=ascendente
+
+###
+
+### Get all products descending
+GET http://localhost:3000/api/productos?desde=0&hasta=5&ordenación=descendente
+
+###
+
+### Get product by id
+GET http://localhost:3000/api/productos/2
+
+###
+
+### Create a new product
+POST http://localhost:3000/api/productos
+Content-Type: application/json
+
+{
+  "título": "Lámina de prueba",
+  "descripción": "Descripción de prueba",
+  "precio": 9.99,
+  "imagen": "lamina_prueba.jpg"
+}
+
+###
+
+### Update a product
+PUT http://localhost:3000/api/productos/2
+Content-Type: application/json
+
+{
+  "título": "Lámina actualizada",
+  "descripción": "Descripción actualizada",
+  "precio": 12.99
+}
+
+###
+
+### Delete a product
+DELETE http://localhost:3000/api/productos/1

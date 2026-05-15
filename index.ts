@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser'
 import jwt from 'jsonwebtoken'
 import ProductosRouter from './routes/productos.ts'
 import UsuariosRouter from './routes/usuarios.ts'
+import ApiRouter from './routes/api.ts'
 import logger from './logger.ts'
 
 const app = express()
@@ -18,6 +19,9 @@ nunjucks.configure('views', {
 
 // Middleware: form parameters
 app.use(express.urlencoded({ extended: true }))
+
+// Middleware: JSON for API
+app.use(express.json())
 
 // Middleware: cookie parser
 app.use(cookieParser())
@@ -63,6 +67,7 @@ app.use((req, res, next) => {
 // Routers
 app.use('/', ProductosRouter)
 app.use('/', UsuariosRouter)
+app.use('/', ApiRouter)
 
 app.listen(PORT, () => {
   logger.info(`Server running at http://localhost:${PORT}`)
