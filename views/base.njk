@@ -281,16 +281,28 @@
             <span class="title">Buscar</span>
           </a>
 
-          <!-- User -->
-          <a href="#" class="header-icon-btn">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="18" viewBox="0 0 18.985 20.055">
-              <g transform="translate(-1717.821 -82.211)">
-                <path d="M13.662,14.524a4.262,4.262,0,1,1,4.262-4.262A4.275,4.275,0,0,1,13.662,14.524Zm0-7.459a3.278,3.278,0,0,0-3.2,3.2,3.278,3.278,0,0,0,3.2,3.2,3.278,3.278,0,0,0,3.2-3.2A3.278,3.278,0,0,0,13.662,7.066Z" transform="translate(1713.651 76.611)" fill="#737373" stroke="#737373" stroke-miterlimit="10" stroke-width="0.8"/>
-                <path d="M23.185,24.176H22.1c0-4.088-3.572-7.379-8.01-7.379s-8.01,3.39-8.01,7.379H5C5,19.589,9.113,15.8,14.093,15.8S23.185,19.489,23.185,24.176Z" transform="translate(1713.221 77.69)" fill="#737373" stroke="#737373" stroke-miterlimit="10" stroke-width="0.8"/>
-              </g>
-            </svg>
-            <span class="title">Iniciar sesión</span>
-          </a>
+          <!-- User: show logout if logged in, login if not -->
+          {% if usuario %}
+            <a href="/logout" class="header-icon-btn">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="18" viewBox="0 0 18.985 20.055">
+                <g transform="translate(-1717.821 -82.211)">
+                  <path d="M13.662,14.524a4.262,4.262,0,1,1,4.262-4.262A4.275,4.275,0,0,1,13.662,14.524Zm0-7.459a3.278,3.278,0,0,0-3.2,3.2,3.278,3.278,0,0,0,3.2,3.2,3.278,3.278,0,0,0,3.2-3.2A3.278,3.278,0,0,0,13.662,7.066Z" transform="translate(1713.651 76.611)" fill="#737373" stroke="#737373" stroke-miterlimit="10" stroke-width="0.8"/>
+                  <path d="M23.185,24.176H22.1c0-4.088-3.572-7.379-8.01-7.379s-8.01,3.39-8.01,7.379H5C5,19.589,9.113,15.8,14.093,15.8S23.185,19.489,23.185,24.176Z" transform="translate(1713.221 77.69)" fill="#737373" stroke="#737373" stroke-miterlimit="10" stroke-width="0.8"/>
+                </g>
+              </svg>
+              <span class="title">{{ usuario }} | Salir</span>
+            </a>
+          {% else %}
+            <a href="/login" class="header-icon-btn">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="18" viewBox="0 0 18.985 20.055">
+                <g transform="translate(-1717.821 -82.211)">
+                  <path d="M13.662,14.524a4.262,4.262,0,1,1,4.262-4.262A4.275,4.275,0,0,1,13.662,14.524Zm0-7.459a3.278,3.278,0,0,0-3.2,3.2,3.278,3.278,0,0,0,3.2,3.2,3.278,3.278,0,0,0,3.2-3.2A3.278,3.278,0,0,0,13.662,7.066Z" transform="translate(1713.651 76.611)" fill="#737373" stroke="#737373" stroke-miterlimit="10" stroke-width="0.8"/>
+                  <path d="M23.185,24.176H22.1c0-4.088-3.572-7.379-8.01-7.379s-8.01,3.39-8.01,7.379H5C5,19.589,9.113,15.8,14.093,15.8S23.185,19.489,23.185,24.176Z" transform="translate(1713.221 77.69)" fill="#737373" stroke="#737373" stroke-miterlimit="10" stroke-width="0.8"/>
+                </g>
+              </svg>
+              <span class="title">Iniciar sesión</span>
+            </a>
+          {% endif %}
 
           <!-- Cart with badge -->
           <a href="#" class="header-icon-btn">

@@ -4,10 +4,10 @@
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
-
 generator client {
-  provider = "prisma-client"
-  output   = "../generated/prisma"
+  provider        = "prisma-client"
+  output          = "../generated/prisma"
+  previewFeatures = ["fullTextSearchPostgres"]
 }
 
 datasource db {
@@ -21,4 +21,11 @@ model Producto {
   descripción String  @db.Text
   precio      Decimal
   imagen      String  @db.Char(127)
+}
+
+model Usuario {
+  email      String  @id @db.Char(127)
+  nombre     String  @db.Char(127)
+  contraseña String  @db.Text
+  admin      Boolean @default(false)
 }

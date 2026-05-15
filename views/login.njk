@@ -1,0 +1,82 @@
+{% extends "base.njk" %}
+
+{% block title %}Iniciar sesión — Tienda Prado{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center mt-4 mb-5">
+  <div class="col-12 col-md-8 col-lg-7">
+
+    <h1 style="font-family:'EB Garamond',serif; font-size:1.4rem; font-weight:400; margin-bottom:1.5rem">
+      Inicia sesión con tu cuenta
+    </h1>
+
+    <div style="border: 1px solid #e8e8e8">
+
+      <!-- Form section -->
+      <div style="padding: 2rem 2.5rem">
+
+        {% if error %}
+        <div class="alert alert-danger" style="font-size:0.85rem; border-radius:0; margin-bottom:1.5rem">
+          Email o contraseña incorrectos.
+        </div>
+        {% endif %}
+
+        <form action="/login" method="POST">
+
+          <!-- Email -->
+          <div style="border-bottom: 1px solid #e8e8e8; margin-bottom: 1rem; padding-bottom: 0.5rem">
+            <input
+              type="email"
+              name="email"
+              class="form-control"
+              placeholder="Correo electrónico"
+              required
+              style="border:none; border-radius:0; font-size:0.9rem; padding: 6px 0; box-shadow:none; color:#333"
+            >
+          </div>
+
+          <!-- Password -->
+          <div style="border-bottom: 1px solid #e8e8e8; margin-bottom: 1.5rem; padding-bottom: 0.5rem; position:relative">
+            <input
+              type="password"
+              name="contraseña"
+              class="form-control"
+              placeholder="Contraseña"
+              required
+              style="border:none; border-radius:0; font-size:0.9rem; padding: 6px 0; box-shadow:none; color:#333"
+            >
+          </div>
+
+          <!-- Forgot password -->
+          <div class="text-center mb-3">
+            <a href="#" style="font-size:0.85rem; color:#555; text-decoration:none; font-family:'EB Garamond',serif; font-size:1rem">
+              ¿Has olvidado tu contraseña?
+            </a>
+          </div>
+
+          <!-- Submit button -->
+          <div class="text-center">
+            <button
+              type="submit"
+              class="btn px-5 py-2"
+              style="background:#4a4a4a; color:#fff; border-radius:0; font-size:0.85rem; letter-spacing:0.05em; min-width:180px"
+            >
+              Iniciar sesión
+            </button>
+          </div>
+
+        </form>
+      </div>
+
+      <!-- Register section -->
+      <div style="border-top: 1px solid #e8e8e8; padding: 1.2rem 2.5rem; text-align:center">
+        <a href="#" style="font-family:'EB Garamond',serif; font-size:1rem; color:#333; text-decoration:none">
+          ¿No tienes una cuenta? Créala aquí &rsaquo;
+        </a>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+{% endblock %}
